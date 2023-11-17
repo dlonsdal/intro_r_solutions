@@ -4,8 +4,6 @@ output:
   bookdown::html_document2:
     fig_caption : TRUE
     number_sections: no
-    toc: yes
-    toc_float: yes
 
 header-includes:
   - \usepackage{colortbl}
@@ -68,13 +66,15 @@ In today's session, we will aim to build on the material covered in the pre-sess
   + Change the aesthetics of plots 
   + Use  <TT>ggplot2</TT> to transform axes and plot individual data using  <TT>facet_wrap()</TT>
 * Use  <TT>R</TT> to undertake basic, descriptive (non-compartmental) analysis of some pharmacokinetic data to 
-    + Estimate $C_{max}$
+    + Estimate C~max
 
 
 
 This document is designed to provide you with notes of the session and be a handy resource when you come to revision. There are examples of code and the corresponding output from <TT>R</TT> as we go along.  
 
-## Accessing <TT>R</TT> and <TT>RStudio</TT> on a University computer 
+## Accessing <TT>R</TT> and <TT>RStudio</TT> on a University computer <img align="centre" height="50" src="R.png"/> 
+
+
 
 The two key tools for this session will be <TT>R</TT> and <TT>RStudio</TT>. These are free, open source pieces of software. They are both available on the University computers, but you may choose to download them onto your personal laptop or home computer.
 
@@ -82,7 +82,7 @@ The two key tools for this session will be <TT>R</TT> and <TT>RStudio</TT>. Thes
 
 When you are using a University computer, you need to access <TT>RStudio</TT> via the University servers.
 
-The link for this is [here](https://stats3.sgul.ac.uk/rstudio).  I suggest you save this as a 'favourite'
+The link for this is [here](https://stats3.sgul.ac.uk/rstudio).  I suggest you save this as a 'favourite'. *For this exercise, use version 4.2.1 of R (this already has tidyverse in the library)*.
 
 # Some basics in <TT>R</TT>
 Open <TT>RStudio</TT> and then open a new <TT>R</TT> script by clicking on the plus page in the top left hand corner of the <TT>RStudio</TT> window. You are now ready to start writing an <TT>R</TT> script. Try doing some simple maths and running the code by clicking '<TT>Run</TT>' or pressing <TT>ctrl+enter</TT> (<TT>cmd+enter if using a Mac</TT>).
@@ -249,9 +249,7 @@ Please note, if you are undertaking this work on your own personal computer, you
 
 For example:  
 ```{r, eval=FALSE}
-.libPaths( c( .libPaths(),
-"/homes/dlonsdale-pharmacokinetics/sghms/bms/shares/Advanced-Pharmacokinetics/4.2.1/library") )
-#note that you need the '.' before 'libPaths'
+
 library(tidyverse)
 ```
 
@@ -341,4 +339,93 @@ Mmmmm, it is still a bit ugly though.
 * Log transform the y-axis
 * Plot data for *just* <TT>ID==A</TT>
 * Plot each individual  
- 
+
+<br>
+
+```{r ,eval=F}
+ggplot(data=amox, aes(x=time, y=conc, group=ID))+ 
+  geom_point()+
+  xlab("Time (hours)")+
+  ylab("Concentration of amoxicillin mg/L")+
+  ggtitle("Amoxicillin PK data")+
+  geom_line()+
+  theme_bw()  # this is my favourite theme, what is yours?
+``` 
+```{r bwtheme,echo=F,fig.width=4.5,fig.height=2.5,fig.align = 'center', fig.cap="Plot using theme\\_bw()"}
+ggplot(data=amox, aes(x=time, y=conc, group=ID))+ 
+  geom_point()+
+  xlab("Time (hours)")+
+  ylab("Concentration of amoxicillin mg/L")+
+  ggtitle("Amoxicillin PK data")+
+  geom_line()+
+  theme_bw(base_size=9)  # this is my favourite theme, what is yours?
+``` 
+
+```{r eval=F}
+ggplot(data=amox, aes(time,conc, group=ID))+ 
+  geom_point()+
+  xlab("Time (hours)") + ylab("Concentration of amoxicillin (mg/L)")+
+  geom_line()+
+  scale_y_continuous(trans='log2') + #note that you have options log2 and log10 here
+  theme_bw()
+``` 
+
+```{r logy,echo=F,fig.width=4.5,fig.height=2.5,fig.align = 'center', fig.cap="Semi-log plot"}
+ggplot(data=amox, aes(time,conc, group=ID))+ 
+  geom_point()+
+  theme_bw(base_size=9)+
+  xlab("Time (hours)") + ylab("Concentration of amoxicillin (mg/L)")+
+  geom_line()+
+  scale_y_continuous(trans='log2') + #note that you have options log2 and log10 here not loge
+  theme_bw(base_size=9)
+``` 
+
+```{r,eval=F}
+ggplot(data=amox, aes(time,conc, group=ID,linetype=ID))+ 
+  geom_point()+
+  xlab("Time (hours)") + ylab("Concentration of amoxicillin (mg/L)")+
+  geom_line() +
+  theme_bw() 
+``` 
+```{r difline, echo=F,fig.width=4.5,fig.height=2.5,fig.align = 'center', fig.cap="Plot with a different line type for each participant"}
+ggplot(data=amox, aes(time,conc, group=ID,linetype=ID))+ 
+  geom_point()+
+  theme_bw(base_size=9)+
+  xlab("Time (hours)") + ylab("Concentration of amoxicillin (mg/L)")+
+  geom_line() +
+  theme_bw(base_size=9) 
+``` 
+
+```{r eval=F}
+ggplot(data=subset(amox,ID=='A'), aes(time,conc, group=ID))+ 
+  geom_point()+
+  ggtitle("Participant A data")+ #note I have put a title in here
+  xlab("Time (hours)") + ylab("Concentration of amoxicillin (mg/L)")+
+  geom_line()+
+  theme_bw()
+``` 
+```{r subseta,echo=F,fig.width=4.5,fig.height=2.5,fig.align = 'center', fig.cap="Plot of data for participant 'A'"}
+ggplot(data=subset(amox,ID=='A'), aes(time,conc, group=ID))+ 
+  geom_point()+
+  ggtitle("Participant A data")+ #note I have put a title in here
+  xlab("Time (hours)") + ylab("Concentration of amoxicillin (mg/L)")+
+  geom_line()+
+  theme_bw(base_size=9)
+``` 
+
+```{r ,eval=F}
+ggplot(data=subset(amox), aes(time,conc, group=ID))+ 
+  geom_point()+
+  xlab("Time (hours)") + ylab("Concentration of amoxicillin (mg/L)")+
+  geom_line()+ 
+  facet_wrap(vars(ID))+
+  theme_bw()
+```
+```{r facet,echo=F,fig.width=7,fig.height=5,fig.align = 'center', fig.cap="Plot using facet_wrap() to give panel per ID"}
+ggplot(data=subset(amox), aes(time,conc, group=ID))+ 
+  geom_point()+
+  xlab("Time (hours)") + ylab("Concentration of amoxicillin (mg/L)")+
+  geom_line()+ 
+  facet_wrap(vars(ID))+
+  theme_bw(base_size=9)
+``` 
