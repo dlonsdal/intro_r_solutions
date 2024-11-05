@@ -82,7 +82,7 @@ The two key tools for this session will be <TT>R</TT> and <TT>RStudio</TT>. Thes
 
 When you are using a University computer, you need to access <TT>RStudio</TT> via the University servers.
 
-The link for this is [here](https://stats3.sgul.ac.uk/rstudio).  I suggest you save this as a 'favourite'. *For this exercise, use version 4.2.1 of R (this already has tidyverse in the library)*.
+The link for this is [here](https://stats3.sgul.ac.uk/rstudio). Please note that the IT team are setting up a new link for this, if you find the first link does not work, please try [this](https://stats4.sgul.ac.uk/rstudio-stats3/) instead.
 
 # Some basics in <TT>R</TT>
 Open <TT>RStudio</TT> and then open a new <TT>R</TT> script by clicking on the plus page in the top left hand corner of the <TT>RStudio</TT> window. You are now ready to start writing an <TT>R</TT> script. Try doing some simple maths and running the code by clicking '<TT>Run</TT>' or pressing <TT>ctrl+enter</TT> (<TT>cmd+enter if using a Mac</TT>).
@@ -245,10 +245,13 @@ Here, the three variables in the amoxicillin data set are summarised. It's a sta
 # Calling a package from the <TT>R</TT> library  
 I suggest you start by using the <TT>tidyverse</TT>, which is acually a selection of useful packages that are automatically included when you install <TT>R</TT>. When you want to use something like this, you have to call it from the <TT>R library</TT> of packages with the function <TT>library()</TT>. 
 
-Please note, if you are undertaking this work on your own personal computer, you will need to download packages before you use them. This is done with the <TT>install.packages()</TT> function (e.g. <TT>install.packages('tidyverse')</TT>). If you are using <TT>RStudio</TT> on the server, I have downloaded all the packages that you need for this course, but you will have to tell <TT>R</TT> where to find them before you can call them with the <TT>library()</TT> function. To do this you will need to run the following code: <TT>.libPaths( c(.libPaths(), "/homes/dlonsdale-pharmacokinetics/sghms/bms/shares/Advanced-Pharmacokinetics/4.2.1/library"))</TT>
+Please note, if you are undertaking this work on your own personal computer, you will need to download packages before you use them. This is done with the <TT>install.packages()</TT> function (e.g. <TT>install.packages('tidyverse')</TT>). If you are using <TT>RStudio</TT> on the server, I have downloaded all the packages that you need for this course, but you will have to tell <TT>R</TT> where to find them before you can call them with the <TT>library()</TT> function. To do this you will need to run the following code: <TT>.libPaths( c(.libPaths(), "/homes/dlonsdale-pharmacokinetics/sghms/bms/shares/Advanced-Pharmacokinetics/4.4.1/library"))</TT>
 
 For example:  
 ```{r, eval=FALSE}
+.libPaths( c( .libPaths(),
+              "/homes/dlonsdale-pharmacokinetics/sghms/bms/shares/Advanced-Pharmacokinetics/4.4.1/library") )
+#note that you need the '.' before 'libPaths'
 
 library(tidyverse)
 ```
