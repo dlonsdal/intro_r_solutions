@@ -1,5 +1,5 @@
 ---
-title: "Introduction to visualising pharmacokinetic data using '<TT>R</TT>'"
+title: "Solutions - Introduction to visualising pharmacokinetic data using '<TT>R</TT>'"
 output:
   bookdown::html_document2:
     fig_caption : TRUE
